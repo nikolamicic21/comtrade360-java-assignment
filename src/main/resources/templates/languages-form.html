@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Languages</title>
+</head>
+<body>
+<h1>Add New Language Pair</h1>
+<form th:object="${hello}" action="/admin" method="POST">
+    <input name="language" type="text" placeholder="Language"/>
+    <input name="message" type="text" placeholder="Message"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit">Add new language</button>
+</form>
+</body>
+</html>

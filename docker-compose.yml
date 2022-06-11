@@ -1,0 +1,44 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  gateway:
+    image: "nginx:1.21.6-alpine"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [nginx-debug, '-g', 'daemon off;']
+    ports:
+      - "9090:80"
+    depends_on:
+      - app-db
+      - app-external
+  app-db:
+    image: "mickeckemi21/comtrade360-java-assignment:0.0.1-SNAPSHOT"
+    depends_on:
+      - db
+    environment:
+      SERVER_PORT: "8081"
+      SPRING_PROFILES_ACTIVE: "db,postgres"
+      APP_SECURITY_LOGIN_PROCESSING_URL: "/api/db/login"
+      POSTGRES_JDBC_URL: jdbc:postgresql://db:5432/comtrade360
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+  db:
+    image: "postgres:14.3"
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: comtrade360
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8090:8080"
+  app-external:
+    image: "mickeckemi21/comtrade360-java-assignment:0.0.1-SNAPSHOT"
+    environment:
+      SERVER_PORT: "8082"
+      SPRING_PROFILES_ACTIVE: "external"
+      APP_SECURITY_LOGIN_PROCESSING_URL: "/api/external/login"
+      SYSTRAN_API_KEY: "cfcf2a1f-c23a-4dd4-a104-222540f4ca46"
