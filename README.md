@@ -14,6 +14,8 @@ By default, there are 2 spring profiles active:
 
 This can be easily change with help of command line argument or environment variable (SPRING_PROFILES_ACTIVE).
 
+There is one required command line argument or environment variable to be specified called __SYSTRAN_API_KEY__, which will be used when communicating with external Systran service.
+
 ## Docker compose
 
 There is a convenient _docker-compose_ file in the root of the project which starts the following services:
